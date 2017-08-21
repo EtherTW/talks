@@ -15,6 +15,11 @@
 - [ ] Prohibit video recording / 不可直播也不可錄影
 - [ ] Prohibit photographing / 禁止現場拍照
 
+#### Time / 演講時間
+
+> The talk is usually 30 min with extra 10 min Q&A, specify here if longer or shorter is preferred. 一般演講時間為 30 分鐘與 10 min 問答時間，可註明想要更長或更短。
+
+
 #### Other Preferences / 其他偏好請補充
 
 ------
