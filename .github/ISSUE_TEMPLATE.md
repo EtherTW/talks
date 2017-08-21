@@ -1,18 +1,14 @@
-Please specify a **title** for your talk.
-
-請為講題下個標題
+> Please specify a **title** for your talk. / 請為講題下個標題
 
 ### Abstract / 大綱
 
 ### References / 參考資料
 
-Upload here when ready. 完成再更新即可
+> Upload here when ready. 完成再更新即可
 
 - [slides / 投影片]()
 
 ### Preferences / 偏好
-
-
 
 - [ ] Accept Livestream / 可直播
 - [ ] No livestream, accept video recording / 不直播，但可錄影
@@ -23,7 +19,7 @@ Upload here when ready. 完成再更新即可
 
 ------
 
-===== Delete below when read.（下面看完請刪除）=====
+> ===== Delete below when read.（下面看完請刪除）=====
 
 ## Example / 範例
 
@@ -38,7 +34,6 @@ A Tour of Ethereum Ecosystem
 ### References / 參考資料
 
 - [slides / 投影片](https://speakerdeck.com/changwu/a-tour-of-ethereum-ecosystem)
-
 
 ### Preferences / 偏好
 
