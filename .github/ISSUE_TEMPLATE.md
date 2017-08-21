@@ -4,7 +4,7 @@
 
 ### References / 參考資料
 
-> Upload here when ready. 完成再更新即可
+> Usually this section is updated when the talk is delivered. 講題講完之後再更新即可
 
 - [slides / 投影片]()
 
