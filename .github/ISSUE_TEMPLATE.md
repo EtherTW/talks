@@ -1,5 +1,11 @@
 > Please specify a **title** for your talk. / 請為講題下個標題
 
+### Language / 語言
+
+- [ ] English
+- [ ] 中文
+- [ ] 其他：
+
 ### Abstract / 大綱 (Optional)
 
 ### References / 參考資料 (Optional)
