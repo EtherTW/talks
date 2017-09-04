@@ -43,7 +43,7 @@ class Event:
         self.issues = issues
 
 @click.command()
-@click.option('--path', help='Number of greetings.')
+@click.option('--path', help='path of meetup event config')
 def show_event(path):
     event = Event(path)
     
