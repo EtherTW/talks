@@ -3,7 +3,6 @@ import click
 import requests
 import re
 
-
 def read_json(path):
     with open(path) as f:
         json_dict = json.load(f)
@@ -32,9 +31,11 @@ class Issue:
     def talk_info(self):
         return "{title}\nby {speaker}\n{abstract}\nLanguage: {language}".format(**self.__dict__)
 
+
 class Event:
     def __init__(self, path):
         self.content = read_json(path)
+        self.event_id = self.content["event"].split("/")[-1]
         issues = []
         for talk in self.content["talks"]:
             issue = Issue(_id = talk["issue"])
@@ -42,13 +43,24 @@ class Event:
             issues.append(issue)
         self.issues = issues
 
+
+class MeetupAPI:
+    def __init__(self):
+        # Get one from https://secure.meetup.com/meetup_api/key/
+        with open('.api_key', 'r') as f:
+            self.key = f.readlines()[0]
+        self.host = "api.meetup.com"
+        self.urlname = "Taipei-Ethereum-Meetup"
+
+    def get_event_info(self, event_id):
+        url = "https://{0}/{1}/events/{2}".format(self.host, self.urlname, event_id)
+        response = requests.get(url, params={ "sign":"true"})
+        return response.json()
+
 @click.command()
 @click.option('--path', help='path of meetup event config')
 def show_event(path):
     event = Event(path)
-    
-    print(event.content)
-
 
 
 
