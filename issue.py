@@ -2,6 +2,7 @@ import json
 import click
 import requests
 import re
+import arrow
 
 
 def read_json(path):
@@ -28,6 +29,7 @@ class Issue:
             elif chunk.startswith('Language'):
                 self.language = self.extract_language(chunk)
         self.speaker = self.content['user']['login']
+        self.time = 40  # minutes #TODO: get this info from issue
 
     @staticmethod
     def extract_language(string):
@@ -36,19 +38,47 @@ class Issue:
         return next(matches).group(1)
 
     def talk_info(self):
-        return "{title}\nby {speaker}\n{abstract}\nLanguage: {language}".format(**self.__dict__)
+        return "{title}\n\nby {speaker}\n\n{abstract}\n\nLanguage: {language}".format(**self.__dict__)
 
 
 class Event:
     def __init__(self, path):
         self.content = read_json(path)
         self.event_id = self.content["event"].split("/")[-1]
-        issues = []
-        for talk in self.content["talks"]:
-            issue = Issue(_id=talk["issue"])
+        self.issues = [Issue(_id=talk["issue"])
+                       for talk in self.content["talks"]]
+
+    def show_event(self):
+
+        agenda = Agenda(start=arrow.utcnow().replace(
+            hour=19, minute=0, second=0))
+        agenda.add_item("Networking", 30)
+
+        for issue in self.issues:
             print(issue.talk_info())
-            issues.append(issue)
-        self.issues = issues
+            agenda.add_item(issue.title, issue.time)
+            agenda.add_item("Break", 10)
+        print("\n\n")
+        print(agenda.show_agenda())
+
+
+class Agenda:
+    def __init__(self, start):
+        self.agenda = []
+        self.start = start
+
+    def add_item(self, title, minutes):
+        self.agenda.append([title, minutes])
+
+    def show_agenda(self):
+        output = "Agenda\n\n"
+        current_time = self.start
+        for title, minutes in self.agenda:
+            moments_later = current_time.shift(minutes=+ minutes)
+            output += "{0} - {1}\t {2}\n".format(
+                current_time.format("HH:mm"), moments_later.format("HH:mm"), title)
+            current_time = moments_later
+        return output
 
 
 class MeetupAPI:
@@ -72,9 +102,10 @@ def cli():
 
 
 @cli.command()
-@click.option('--path', help='path of meetup event config')
-def show_event(path):
+@click.argument('path')
+def show(path):
     event = Event(path)
+    print(event.show_event())
 
 
 @cli.command()
