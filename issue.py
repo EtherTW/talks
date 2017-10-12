@@ -58,6 +58,7 @@ class Event:
             print(issue.talk_info())
             agenda.add_item(issue.title, issue.time)
             agenda.add_item("Break", 10)
+            print("\n\n")
         print("\n\n")
         print(agenda.show_agenda())
 
