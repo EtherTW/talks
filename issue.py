@@ -3,15 +3,22 @@ import click
 import requests
 import re
 
+
 def read_json(path):
     with open(path) as f:
         json_dict = json.load(f)
     return json_dict
 
 
+def write_json(path, _dict):
+    with open(path, "w") as f:
+        f.write(json.dumps(_dict))
+
+
 class Issue:
     def __init__(self, _id):
-        url = "https://api.github.com/repos/EtherTW/talks/issues/{0}".format(_id)
+        url = "https://api.github.com/repos/EtherTW/talks/issues/{0}".format(
+            _id)
         self.content = requests.get(url).json()
         self.title = self.content["title"]
         self.body = self.content["body"]
@@ -38,7 +45,7 @@ class Event:
         self.event_id = self.content["event"].split("/")[-1]
         issues = []
         for talk in self.content["talks"]:
-            issue = Issue(_id = talk["issue"])
+            issue = Issue(_id=talk["issue"])
             print(issue.talk_info())
             issues.append(issue)
         self.issues = issues
@@ -53,18 +60,34 @@ class MeetupAPI:
         self.urlname = "Taipei-Ethereum-Meetup"
 
     def get_event_info(self, event_id):
-        url = "https://{0}/{1}/events/{2}".format(self.host, self.urlname, event_id)
-        response = requests.get(url, params={ "sign":"true"})
+        url = "https://{0}/{1}/events/{2}".format(
+            self.host, self.urlname, event_id)
+        response = requests.get(url, params={"sign": "true"})
         return response.json()
 
-@click.command()
+
+@click.group()
+def cli():
+    pass
+
+
+@cli.command()
 @click.option('--path', help='path of meetup event config')
 def show_event(path):
     event = Event(path)
 
 
+@cli.command()
+@click.argument('title')
+def new(title):
+    default = {
+        "event": "",
+        "talks": []
+    }
+    write_json("./meetups/{0}.json".format(title), default)
 
+    click.echo("Create a new meetup at {0}".format(title))
 
 
 if __name__ == '__main__':
-    show_event()
+    cli()
