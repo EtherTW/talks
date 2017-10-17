@@ -20,6 +20,7 @@ class Issue:
     def __init__(self, _id):
         url = "https://api.github.com/repos/EtherTW/talks/issues/{0}".format(
             _id)
+        self.issue_url = "https://github.com/EtherTW/talks/issues/{0}".format(_id)
         self.content = requests.get(url).json()
         self.title = self.content["title"]
         self.body = self.content["body"]
@@ -38,7 +39,7 @@ class Issue:
         return next(matches).group(1)
 
     def talk_info(self):
-        return "{title}\n\nby {speaker}\n\n{abstract}\n\nLanguage: {language}".format(**self.__dict__)
+        return "{title}\n\nby {speaker}\n\n{abstract}\n\nLanguage: {language}\n\n{issue_url}".format(**self.__dict__)
 
 
 class Event:
