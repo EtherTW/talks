@@ -1,3 +1,7 @@
+/*
+ This is an AWS Lambda script with Node.js 6.10
+ */
+
 let axios = require('axios');
 let querystring = require('querystring');
 let timestamp = require('unix-timestamp');
